@@ -85,26 +85,28 @@ button {
 	height: 100%;
 	margin: 0px auto;
 	display: grid;
+
+	.show {
+		grid-area: a;
+	}
+
+	.health {
+		grid-area: b;
+	}
+
+	.actions {
+		grid-area: c;
+	}
+
+	.logs {
+		grid-area: d;
+	}
+
 	grid-template:
-		'a a d' 300px
-		'b b d' 100px
-		'c c d' 150px / 38% 38% 24%;
-}
-
-.show {
-	grid-area: a;
-}
-
-.health {
-	grid-area: b;
-}
-
-.actions {
-	grid-area: c;
-}
-
-.logs {
-	grid-area: d;
+		'a a a' 200px
+		'd d d' 105px
+		'b b b' 100px
+		'c c c' 150px;
 }
 
 .new-game {
@@ -117,4 +119,13 @@ button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+@media (min-width: 1024px) {
+	.game {
+		grid-template:
+			'a a d' 300px
+			'b b d' 100px
+			'c c d' 150px / 38% 38% 24%;
+	}
 }

@@ -3,13 +3,27 @@
 	flex-direction: column;
 	justify-content: flex-end;
 	border: 2px solid $accent;
-	margin-left: 5px;
+	margin-top: 5px;
 
 	.logs__content {
 		overflow: auto;
 
 		.logs__text {
 			padding: 10px;
+			font-size: 12px;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.logs {
+		margin-left: 5px;
+		margin-top: 0px;
+
+		.logs__content {
+			.logs__text {
+				font-size: 16px;
+			}
 		}
 	}
 }

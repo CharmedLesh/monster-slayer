@@ -48,15 +48,25 @@
   flex-direction: column;
   justify-content: flex-end;
   border: 2px solid #646cff;
-  margin-left: 5px;
+  margin-top: 5px;
 }
 .logs .logs__content {
   overflow: auto;
 }
 .logs .logs__content .logs__text {
   padding: 10px;
+  font-size: 12px;
 }
 
+@media (min-width: 1024px) {
+  .logs {
+    margin-left: 5px;
+    margin-top: 0px;
+  }
+  .logs .logs__content .logs__text {
+    font-size: 16px;
+  }
+}
 :root {
   font-family: "Nunito", sans-serif;
   font-weight: 400;
@@ -130,22 +140,18 @@ button:active {
   height: 100%;
   margin: 0px auto;
   display: grid;
-  grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/38% 38% 24%;
+  grid-template: "a a a" 200px "d d d" 105px "b b b" 100px "c c c" 150px;
 }
-
-.show {
+.game .show {
   grid-area: a;
 }
-
-.health {
+.game .health {
   grid-area: b;
 }
-
-.actions {
+.game .actions {
   grid-area: c;
 }
-
-.logs {
+.game .logs {
   grid-area: d;
 }
 
@@ -159,4 +165,10 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .game {
+    grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/38% 38% 24%;
+  }
 }/*# sourceMappingURL=index.css.map */

@@ -20,7 +20,7 @@ let attackCount = 0;
 
 // Monster defeated counter
 let monsterDefeated = 0;
-const monsterDefeatedCounter = document.querySelector('.counter__number');
+const monsterDefeatedCounter = document.querySelector('.game__defeated-monsters-number');
 
 // Heal action boolean
 let healWasPerformed = false;
