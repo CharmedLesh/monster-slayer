@@ -1,0 +1,10 @@
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0px;
+}
+.actions .action__button {
+  width: 100%;
+}/*# sourceMappingURL=actions.module.css.map */

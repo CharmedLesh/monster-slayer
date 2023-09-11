@@ -1,0 +1,15 @@
+.logs {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	border: 2px solid $accent;
+	margin-left: 5px;
+
+	.logs__content {
+		overflow: auto;
+
+		.logs__text {
+			padding: 10px;
+		}
+	}
+}

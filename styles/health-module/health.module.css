@@ -1,0 +1,17 @@
+.health {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 5px;
+}
+.health .health__bar {
+  width: 100%;
+  height: 40px;
+  background-color: darkcyan;
+  margin: 5px 0px;
+}
+.health .health__bar .health__fill {
+  background-color: #aa0000;
+  height: 100%;
+  width: 100%;
+}/*# sourceMappingURL=health.module.css.map */

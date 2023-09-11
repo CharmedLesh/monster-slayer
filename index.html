@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./index.css" />
+		<title>Monster Slayer</title>
+	</head>
+	<body>
+		<div class="game">
+			<div class="show">show supposed to be here</div>
+			<div class="health">
+				<div class="health__bar">
+					<div class="health__label">PLAYER HP</div>
+					<div class="health__fill"></div>
+				</div>
+				<div class="health__bar">
+					<div class="health__label">MONSTER HP</div>
+					<div class="health__fill"></div>
+				</div>
+			</div>
+			<div class="actions">
+				<button class="action__button" id="action__button--attack">ATTACK</button>
+				<button class="action__button" id="action__button--strong-attack" disabled>STRONG ATTACK</button>
+				<button class="action__button" id="action__button--heal">HEAL</button>
+			</div>
+			<div class="logs" id="logs">
+				<div class="logs__content">
+					<div class="logs__text"></div>
+				</div>
+			</div>
+			<div class="counter">Monsters defeated: <span class="counter__number">0</span></div>
+		</div>
+		<div class="new-game" id="new-game" style="display: none">
+			<button class="new-game__button">Start New Game</button>
+		</div>
+		<script src="./script.js"></script>
+	</body>
+</html>

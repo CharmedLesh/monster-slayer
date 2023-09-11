@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap");
+.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #646cff;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0px;
+}
+.actions .action__button {
+  width: 100%;
+}
+
+.health {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0px;
+}
+.health .health__bar {
+  width: 100%;
+  height: 40px;
+  background-color: #1a1a1a;
+  margin: 5px 0px;
+  position: relative;
+}
+.health .health__bar .health__label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 500;
+}
+.health .health__bar .health__fill {
+  background-color: #aa0000;
+  height: 100%;
+  width: 100%;
+}
+
+.logs {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 2px solid #646cff;
+  margin-left: 5px;
+}
+.logs .logs__content {
+  overflow: auto;
+}
+.logs .logs__content .logs__text {
+  padding: 10px;
+}
+
+:root {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.8705882353);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Open Sans", sans-serif;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:active {
+  outline: 4px solid #f3f3f3;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #242424;
+    background-color: rgba(255, 255, 255, 0.8705882353);
+  }
+  button {
+    background-color: #f3f3f3;
+    color: #242424;
+  }
+  button:active {
+    outline: 4px solid #646cff;
+  }
+}
+.game {
+  max-width: 1280px;
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  margin: 0px auto;
+  display: grid;
+  grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/38% 38% 24%;
+}
+
+.show {
+  grid-area: a;
+}
+
+.health {
+  grid-area: b;
+}
+
+.actions {
+  grid-area: c;
+}
+
+.logs {
+  grid-area: d;
+}
+
+.new-game {
+  position: absolute;
+  background-color: #242424;
+  opacity: 90%;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}/*# sourceMappingURL=index.css.map */
