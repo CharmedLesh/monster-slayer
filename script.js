@@ -8,8 +8,8 @@ let playerStrongAttackMaxDamage = 10;
 let playerHealMinAmount = 3;
 let playerHealMaxAmount = 10;
 
-let monsterAttackMinDamage = 5;
-let monsterAttackMaxDamage = 8;
+let monsterAttackMinDamage = getRandomValue(2, 4);
+let monsterAttackMaxDamage = getRandomValue(5, 8);
 
 // Initial health values
 let playerHealth = 100;
@@ -41,6 +41,12 @@ const newGameButton = newGame.children[0];
 // Function to generate a random value between min and max
 function getRandomValue(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min;
+}
+
+//Function to set monster random damage
+function setMonsterDamage() {
+	monsterAttackMinDamage = getRandomValue(2, 4);
+	monsterAttackMaxDamage = getRandomValue(5, 8);
 }
 
 // Function to end the game
@@ -81,6 +87,7 @@ function updateHealthBars() {
 // Function to provide a new enemy
 function provideNewEnemy() {
 	monsterHealth = 100;
+	setMonsterDamage();
 	updateHealthBars();
 	enableActionButtons();
 }
@@ -89,6 +96,7 @@ function provideNewEnemy() {
 function resetGame() {
 	playerHealth = 100;
 	monsterHealth = 100;
+	setMonsterDamage();
 	attackCount = 0;
 	monsterDefeated = 0;
 	monsterDefeatedCounter.innerText = monsterDefeated;
