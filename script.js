@@ -123,7 +123,9 @@ function logEvent(event, value) {
 			logEntry += `${action}\n`;
 			logEntry += `Action type: ${actionType}\n`;
 			logEntry += `Damage: ${value}\n`;
-			logEntry += `Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${monsterHealth}\n`;
+			logEntry += `Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${
+				monsterHealth >= 0 ? monsterHealth : 0
+			}\n`;
 			logEntry += `Player health: ${playerHealth}\n`;
 			break;
 		case 'PLAYER_STRONG_ATTACK':
@@ -133,7 +135,9 @@ function logEvent(event, value) {
 			logEntry += `${action}\n`;
 			logEntry += `Action type: ${actionType}\n`;
 			logEntry += `Damage: ${value}\n`;
-			logEntry += `Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${monsterHealth}\n`;
+			logEntry += `Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${
+				monsterHealth >= 0 ? monsterHealth : 0
+			}\n`;
 			logEntry += `Player health: ${playerHealth}\n`;
 			break;
 		case 'MONSTER_ATTACK':
@@ -143,7 +147,9 @@ function logEvent(event, value) {
 			logEntry += `${action}\n`;
 			logEntry += `Action type: ${actionType}\n`;
 			logEntry += `Damage: ${value}\n`;
-			logEntry += `Player health: ${playerHealth + value} - ${value ? value : 0} --> ${playerHealth}\n`;
+			logEntry += `Player health: ${playerHealth + value} - ${value ? value : 0} --> ${
+				playerHealth >= 0 ? playerHealth : 0
+			}\n`;
 			logEntry += `Monster health: ${monsterHealth}\n`;
 			break;
 		case 'PLAYER_HEAL':
