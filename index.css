@@ -13,7 +13,7 @@
   justify-content: space-between;
   padding: 5px 0px;
 }
-.actions .action__button {
+.actions__button {
   width: 100%;
 }
 
@@ -23,24 +23,25 @@
   align-items: center;
   padding: 10px 0px;
 }
-.health .health__bar {
+.health__bar {
   width: 100%;
   height: 40px;
   background-color: #1a1a1a;
   margin: 5px 0px;
   position: relative;
 }
-.health .health__bar .health__label {
+.health__label {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: 500;
 }
-.health .health__bar .health__fill {
+.health__fill {
   background-color: #aa0000;
   height: 100%;
   width: 100%;
+  transition: width 0.25s;
 }
 
 .logs {
@@ -50,23 +51,25 @@
   border: 2px solid #646cff;
   margin-top: 5px;
 }
-.logs .logs__content {
+.logs__content {
   overflow: auto;
 }
-.logs .logs__content .logs__text {
+.logs__text {
   padding: 10px;
   font-size: 12px;
 }
-
+@media (min-width: 1024px) {
+  .logs__text {
+    font-size: 16px;
+  }
+}
 @media (min-width: 1024px) {
   .logs {
     margin-left: 5px;
     margin-top: 0px;
   }
-  .logs .logs__content .logs__text {
-    font-size: 16px;
-  }
 }
+
 :root {
   font-family: "Nunito", sans-serif;
   font-weight: 400;
@@ -92,8 +95,8 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
 }
 
@@ -134,24 +137,43 @@ button:active {
   }
 }
 .game {
-  max-width: 1280px;
-  padding: 2rem;
   width: 100%;
   height: 100%;
-  margin: 0px auto;
   display: grid;
   grid-template: "a a a" 200px "d d d" 105px "b b b" 100px "c c c" 150px;
 }
-.game .show {
+@media (min-width: 1024px) {
+  .game {
+    max-width: 944px;
+    grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/36% 36% 28%;
+  }
+}
+@media (min-width: 1280px) {
+  .game {
+    max-width: 1024px;
+    grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/37% 37% 26%;
+  }
+}
+@media (min-width: 1440px) {
+  .game {
+    max-width: 1280px;
+    grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/38% 38% 24%;
+  }
+}
+
+.show {
   grid-area: a;
 }
-.game .health {
+
+.health {
   grid-area: b;
 }
-.game .actions {
+
+.actions {
   grid-area: c;
 }
-.game .logs {
+
+.logs {
   grid-area: d;
 }
 
@@ -165,10 +187,4 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-@media (min-width: 1024px) {
-  .game {
-    grid-template: "a a d" 300px "b b d" 100px "c c d" 150px/38% 38% 24%;
-  }
 }/*# sourceMappingURL=index.css.map */

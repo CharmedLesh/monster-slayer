@@ -5,25 +5,21 @@
 	border: 2px solid $accent;
 	margin-top: 5px;
 
-	.logs__content {
+	&__content {
 		overflow: auto;
+	}
 
-		.logs__text {
-			padding: 10px;
-			font-size: 12px;
+	&__text {
+		padding: 10px;
+		font-size: 12px;
+
+		@media (min-width: 1024px) {
+			font-size: 16px;
 		}
 	}
-}
 
-@media (min-width: 1024px) {
-	.logs {
+	@media (min-width: 1024px) {
 		margin-left: 5px;
 		margin-top: 0px;
-
-		.logs__content {
-			.logs__text {
-				font-size: 16px;
-			}
-		}
 	}
 }
