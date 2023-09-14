@@ -1,12 +1,14 @@
+// todo: log event - optimaze to object
+
 // Initial damage values
-let playerAttackMinDamage = 3;
-let playerAttackMaxDamage = 6;
+const playerAttackMinDamage = 3;
+const playerAttackMaxDamage = 6;
 
 let playerStrongAttackMinDamage = 7;
 let playerStrongAttackMaxDamage = 10;
 
-let playerHealMinAmount = 3;
-let playerHealMaxAmount = 10;
+const playerHealMinAmount = 3;
+const playerHealMaxAmount = 10;
 
 let monsterAttackMinDamage = getRandomValue(2, 4);
 let monsterAttackMaxDamage = getRandomValue(5, 8);
@@ -20,23 +22,27 @@ let attackCount = 0;
 
 // Monster defeated counter
 let monsterDefeated = 0;
-const monsterDefeatedCounter = document.querySelector('.game__defeated-monsters-number');
+const $monsterDefeatedCounter = document.querySelector('.game__defeated-monsters-number');
 
 // Heal action boolean
 let healWasPerformed = false;
 
 // Log container
-const logContainerWrapper = document.querySelector('#logs').children[0];
-const logContainer = logContainerWrapper.children[0];
+const $logContainerWrapper = document.querySelector('#logs').children[0];
+const $logContainer = $logContainerWrapper.children[0];
 
 // Action buttons
-const attackButton = document.getElementById('action__button--attack');
-const strongAttackButton = document.getElementById('action__button--strong-attack');
-const healButton = document.getElementById('action__button--heal');
+const $attackButton = document.getElementById('actions__button--attack');
+const $strongAttackButton = document.getElementById('actions__button--strong-attack');
+const $healButton = document.getElementById('actions__button--heal');
 
 // New game button
-const newGame = document.getElementById('new-game');
-const newGameButton = newGame.children[0];
+const $newGame = document.getElementById('new-game');
+const $newGameButton = $newGame.children[0];
+
+// Healt bars
+const $playerHealthBar = document.querySelectorAll('.health__fill')[0];
+const $monsterHealthBar = document.querySelectorAll('.health__fill')[1];
 
 // Function to generate a random value between min and max
 function getRandomValue(min, max) {
@@ -51,37 +57,37 @@ function setMonsterDamage() {
 
 // Function to end the game
 function endGame() {
-	newGame.style.display = 'flex';
+	$newGame.style.display = 'flex';
 }
 
 //Function to increase monster defeated counter
 function increaseMonsterDefeated() {
 	monsterDefeated++;
-	monsterDefeatedCounter.innerText = monsterDefeated;
+	$monsterDefeatedCounter.innerText = monsterDefeated;
 }
 
 // Function to disable action buttons
 function disableActionButtons() {
-	attackButton.disabled = true;
-	strongAttackButton.disabled = true;
-	healButton.disabled = true;
+	$attackButton.disabled = true;
+	$strongAttackButton.disabled = true;
+	$healButton.disabled = true;
 }
 
 // Function to enable action buttons
 function enableActionButtons() {
-	attackButton.disabled = false;
-	healButton.disabled = false;
+	$attackButton.disabled = false;
 	if (attackCount >= 3 && healWasPerformed) {
-		strongAttackButton.disabled = false;
+		$strongAttackButton.disabled = false;
+	}
+	if (playerHealth !== 100) {
+		$healButton.disabled = false;
 	}
 }
 
 // Function to update health bars
 function updateHealthBars() {
-	const playerHealthBar = document.querySelectorAll('.health__fill')[0];
-	const monsterHealthBar = document.querySelectorAll('.health__fill')[1];
-	playerHealthBar.style.width = playerHealth + '%';
-	monsterHealthBar.style.width = monsterHealth + '%';
+	$playerHealthBar.style.width = playerHealth + '%';
+	$monsterHealthBar.style.width = monsterHealth + '%';
 }
 
 // Function to provide a new enemy
@@ -99,13 +105,13 @@ function resetGame() {
 	setMonsterDamage();
 	attackCount = 0;
 	monsterDefeated = 0;
-	monsterDefeatedCounter.innerText = monsterDefeated;
+	$monsterDefeatedCounter.innerText = monsterDefeated;
 	healWasPerformed = false;
-	strongAttackButton.disabled = true;
-	healButton.disabled = true;
-	logContainer.innerText = '';
+	$strongAttackButton.disabled = true;
+	$healButton.disabled = true;
+	$logContainer.innerText = '';
 	updateHealthBars();
-	newGame.style.display = 'none';
+	$newGame.style.display = 'none';
 	enableActionButtons();
 }
 
@@ -177,12 +183,12 @@ function logEvent(event, value) {
 			break;
 	}
 
-	if (logContainer.innerHTML) {
-		logContainer.innerText += '\n' + logEntry;
+	if ($logContainer.innerHTML) {
+		$logContainer.innerText += '\n' + logEntry;
 	} else {
-		logContainer.innerText += logEntry;
+		$logContainer.innerText += logEntry;
 	}
-	logContainerWrapper.scrollTop = logContainer.scrollHeight;
+	$logContainerWrapper.scrollTop = $logContainer.scrollHeight;
 }
 
 // Function to perform a player attack
@@ -193,7 +199,7 @@ function playerAttack() {
 	attackCount++;
 
 	if (attackCount >= 3) {
-		strongAttackButton.disabled = false;
+		$strongAttackButton.disabled = false;
 	}
 
 	if (monsterHealth <= 0) {
@@ -258,7 +264,7 @@ function monsterAttack() {
 // Function to handle button click events
 function buttonClickHandler(event) {
 	switch (event.target) {
-		case attackButton:
+		case $attackButton:
 			playerAttack();
 			disableActionButtons();
 			setTimeout(() => {
@@ -270,7 +276,7 @@ function buttonClickHandler(event) {
 				}
 			}, 500);
 			break;
-		case strongAttackButton:
+		case $strongAttackButton:
 			if (attackCount >= 3 && healWasPerformed) {
 				playerStrongAttack();
 				healWasPerformed = false;
@@ -285,14 +291,15 @@ function buttonClickHandler(event) {
 				}, 500);
 			}
 			break;
-		case healButton:
+		case $healButton:
 			playerHeal();
 			disableActionButtons();
 			setTimeout(() => {
+				monsterAttack();
 				enableActionButtons();
 			}, 500);
 			break;
-		case newGameButton:
+		case $newGameButton:
 			resetGame();
 			break;
 		default:
@@ -301,10 +308,10 @@ function buttonClickHandler(event) {
 }
 
 // Add event listeners to buttons
-attackButton.addEventListener('click', buttonClickHandler);
-strongAttackButton.addEventListener('click', buttonClickHandler);
-healButton.addEventListener('click', buttonClickHandler);
-newGameButton.addEventListener('click', buttonClickHandler);
+$attackButton.addEventListener('click', buttonClickHandler);
+$strongAttackButton.addEventListener('click', buttonClickHandler);
+$healButton.addEventListener('click', buttonClickHandler);
+$newGameButton.addEventListener('click', buttonClickHandler);
 
 // Initialize the game
 updateHealthBars();
