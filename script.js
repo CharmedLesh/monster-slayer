@@ -1,4 +1,4 @@
-// todo: log event - optimaze to object
+// todo: monster strong attack
 
 // Initial damage values
 const playerAttackMinDamage = 3;
@@ -7,11 +7,12 @@ const playerAttackMaxDamage = 6;
 let playerStrongAttackMinDamage = 7;
 let playerStrongAttackMaxDamage = 10;
 
-const playerHealMinAmount = 3;
-const playerHealMaxAmount = 10;
-
 let monsterAttackMinDamage = getRandomValue(2, 4);
 let monsterAttackMaxDamage = getRandomValue(5, 8);
+
+// Initial heal values
+const playerHealMinAmount = 3;
+const playerHealMaxAmount = 10;
 
 // Initial health values
 let playerHealth = 100;
@@ -118,55 +119,45 @@ function resetGame() {
 // Function to log an event
 function logEvent(event, value) {
 	let logEntry = '';
-	let action = '';
-	let actionType = '';
+
+	const logsObj = {
+		monsterHealthDamage: `Damage: ${value}\n Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${
+			monsterHealth >= 0 ? monsterHealth : 0
+		}`,
+		playerHealthDamage: `Damage: ${value}\n Player health: ${playerHealth + value} - ${value ? value : 0} --> ${
+			playerHealth >= 0 ? playerHealth : 0
+		}`,
+		playerHeal: `Restored: ${value}\n Player health: ${playerHealth - value} + ${
+			value ? value : 0
+		} --> ${playerHealth}`,
+		playerHealth: `Player health: ${playerHealth}`,
+		monsterHealth: `Monster health: ${monsterHealth}`
+	};
 
 	switch (event) {
 		case 'PLAYER_ATTACK':
-			action = 'Player attacks';
-			actionType = 'Attack';
-
-			logEntry += `${action}\n`;
-			logEntry += `Action type: ${actionType}\n`;
-			logEntry += `Damage: ${value}\n`;
-			logEntry += `Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${
-				monsterHealth >= 0 ? monsterHealth : 0
-			}\n`;
-			logEntry += `Player health: ${playerHealth}\n`;
+			logEntry += 'Player attacks\n';
+			logEntry += `Action type: Attack\n`;
+			logEntry += `${logsObj.monsterHealthDamage}\n`;
+			logEntry += `${logsObj.playerHealth}\n`;
 			break;
 		case 'PLAYER_STRONG_ATTACK':
-			action = 'Player attacks';
-			actionType = 'Strong Attack';
-
-			logEntry += `${action}\n`;
-			logEntry += `Action type: ${actionType}\n`;
-			logEntry += `Damage: ${value}\n`;
-			logEntry += `Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${
-				monsterHealth >= 0 ? monsterHealth : 0
-			}\n`;
-			logEntry += `Player health: ${playerHealth}\n`;
+			logEntry += 'Player attacks\n';
+			logEntry += `Action type: Strong attack\n`;
+			logEntry += `${logsObj.monsterHealthDamage}\n`;
+			logEntry += `${logsObj.playerHealth}\n`;
 			break;
 		case 'MONSTER_ATTACK':
-			action = 'Monster attacks';
-			actionType = 'Attack';
-
-			logEntry += `${action}\n`;
-			logEntry += `Action type: ${actionType}\n`;
-			logEntry += `Damage: ${value}\n`;
-			logEntry += `Player health: ${playerHealth + value} - ${value ? value : 0} --> ${
-				playerHealth >= 0 ? playerHealth : 0
-			}\n`;
-			logEntry += `Monster health: ${monsterHealth}\n`;
+			logEntry += 'Monster attacks\n';
+			logEntry += 'Action type: Attack\n';
+			logEntry += `${logsObj.playerHealthDamage}\n`;
+			logEntry += `${logsObj.monsterHealth}\n`;
 			break;
 		case 'PLAYER_HEAL':
-			action = 'Player heals';
-			actionType = 'Heal';
-
-			logEntry += `${action}\n`;
-			logEntry += `Action type: ${actionType}\n`;
-			logEntry += `Restored: ${value} HP\n`;
-			logEntry += `Player health: ${playerHealth - value} + ${value ? value : 0} --> ${playerHealth}\n`;
-			logEntry += `Monster health: ${monsterHealth}\n`;
+			logEntry += `Player heals\n`;
+			logEntry += `Action type: Heal\n`;
+			logEntry += `${logsObj.playerHeal}\n`;
+			logEntry += `${logsObj.monsterHealth}\n`;
 			break;
 		case 'PLAYER_WIN':
 			logEntry += `MONSTER DEFEATED\n`;
@@ -175,9 +166,9 @@ function logEvent(event, value) {
 			logEntry += `PLAYER DEFEATED\n`;
 			break;
 		case 'MONSTER_APPROACHED':
-			logEntry += `Another monster approached:\n`;
-			logEntry += `HP: 100\n`;
-			logEntry += `Damage: ${monsterAttackMinDamage} - ${monsterAttackMaxDamage}\n`;
+			logEntry += `Another monster approached\n`;
+			logEntry += `HP: ${monsterHealth}\n`;
+			logEntry += `Monster damage: ${monsterAttackMinDamage} - ${monsterAttackMaxDamage}\n`;
 			break;
 		default:
 			break;
