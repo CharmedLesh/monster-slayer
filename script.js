@@ -1,4 +1,4 @@
-// todo: monster strong attack
+// todo: monster strong attack damage randomize
 
 // Initial damage values
 const playerAttackMinDamage = 3;
@@ -7,8 +7,11 @@ const playerAttackMaxDamage = 6;
 let playerStrongAttackMinDamage = 7;
 let playerStrongAttackMaxDamage = 10;
 
-let monsterAttackMinDamage = getRandomValue(2, 4);
-let monsterAttackMaxDamage = getRandomValue(5, 8);
+let monsterAttackMinDamage = getRandomValue(1, 3);
+let monsterAttackMaxDamage = getRandomValue(4, 6);
+
+const monsterStrongAttackMinDamage = 6;
+const monsterStrongAttackMaxDamage = 8;
 
 // Initial heal values
 const playerHealMinAmount = 3;
@@ -18,8 +21,9 @@ const playerHealMaxAmount = 10;
 let playerHealth = 100;
 let monsterHealth = 100;
 
-// Attack counter
-let attackCount = 0;
+// Attack counters
+let playerAttackCount = 0;
+let monsterAttackCount = 0;
 
 // Monster defeated counter
 let monsterDefeated = 0;
@@ -77,7 +81,7 @@ function disableActionButtons() {
 // Function to enable action buttons
 function enableActionButtons() {
 	$attackButton.disabled = false;
-	if (attackCount >= 3 && healWasPerformed) {
+	if (playerAttackCount >= 3 && healWasPerformed) {
 		$strongAttackButton.disabled = false;
 	}
 	if (playerHealth !== 100) {
@@ -104,7 +108,7 @@ function resetGame() {
 	playerHealth = 100;
 	monsterHealth = 100;
 	setMonsterDamage();
-	attackCount = 0;
+	playerAttackCount = 0;
 	monsterDefeated = 0;
 	$monsterDefeatedCounter.innerText = monsterDefeated;
 	healWasPerformed = false;
@@ -153,6 +157,12 @@ function logEvent(event, value) {
 			logEntry += `${logsObj.playerHealthDamage}\n`;
 			logEntry += `${logsObj.monsterHealth}\n`;
 			break;
+		case 'MONSTER_STRONG_ATTACK':
+			logEntry += 'Monster attacks\n';
+			logEntry += 'Action type: Strong attack\n';
+			logEntry += `${logsObj.playerHealthDamage}\n`;
+			logEntry += `${logsObj.monsterHealth}\n`;
+			break;
 		case 'PLAYER_HEAL':
 			logEntry += `Player heals\n`;
 			logEntry += `Action type: Heal\n`;
@@ -182,14 +192,14 @@ function logEvent(event, value) {
 	$logContainerWrapper.scrollTop = $logContainer.scrollHeight;
 }
 
-// Function to perform a player attack
-function playerAttack() {
+// Function to perform a common player attack
+function playerCommonAttack() {
 	const damage = getRandomValue(playerAttackMinDamage, playerAttackMaxDamage);
 	monsterHealth -= damage;
 	logEvent('PLAYER_ATTACK', damage);
-	attackCount++;
+	playerAttackCount++;
 
-	if (attackCount >= 3) {
+	if (playerAttackCount >= 3) {
 		$strongAttackButton.disabled = false;
 	}
 
@@ -209,7 +219,7 @@ function playerStrongAttack() {
 	const damage = getRandomValue(playerStrongAttackMinDamage, playerStrongAttackMaxDamage);
 	monsterHealth -= damage;
 	logEvent('PLAYER_STRONG_ATTACK', damage);
-	attackCount = 0;
+	playerAttackCount = 0;
 
 	if (monsterHealth <= 0) {
 		monsterHealth = 0;
@@ -238,7 +248,7 @@ function playerHeal() {
 }
 
 // Function to perform a monster attack
-function monsterAttack() {
+function monsterCommonAttack() {
 	const damage = getRandomValue(monsterAttackMinDamage, monsterAttackMaxDamage);
 	playerHealth -= damage;
 	logEvent('MONSTER_ATTACK', damage);
@@ -252,11 +262,29 @@ function monsterAttack() {
 	updateHealthBars();
 }
 
+// Function to perform a monster strong attack
+function monsterStrongAttack() {
+	const damage = getRandomValue(monsterStrongAttackMinDamage, monsterStrongAttackMaxDamage);
+	playerHealth -= damage;
+	logEvent('MONSTER_STRONG_ATTACK', damage);
+}
+
+// Function to perform a monster attack
+function monsterAttack() {
+	if (monsterAttackCount < 5) {
+		monsterCommonAttack();
+		monsterAttackCount++;
+	} else {
+		monsterStrongAttack();
+		monsterAttackCount = 0;
+	}
+}
+
 // Function to handle button click events
 function buttonClickHandler(event) {
 	switch (event.target) {
 		case $attackButton:
-			playerAttack();
+			playerCommonAttack();
 			disableActionButtons();
 			setTimeout(() => {
 				if (monsterHealth !== 100) {
@@ -268,7 +296,7 @@ function buttonClickHandler(event) {
 			}, 500);
 			break;
 		case $strongAttackButton:
-			if (attackCount >= 3 && healWasPerformed) {
+			if (playerAttackCount >= 3 && healWasPerformed) {
 				playerStrongAttack();
 				healWasPerformed = false;
 				disableActionButtons();
