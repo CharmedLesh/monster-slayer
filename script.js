@@ -1,5 +1,3 @@
-// todo: monster strong attack damage randomize
-
 // Initial damage values
 const playerAttackMinDamage = 3;
 const playerAttackMaxDamage = 6;
@@ -7,11 +5,11 @@ const playerAttackMaxDamage = 6;
 let playerStrongAttackMinDamage = 7;
 let playerStrongAttackMaxDamage = 10;
 
-let monsterAttackMinDamage = getRandomValue(1, 3);
-let monsterAttackMaxDamage = getRandomValue(4, 6);
+let monsterAttackMinDamage = getRandomValue(1, 4);
+let monsterAttackMaxDamage = getRandomValue(5, 8);
 
-const monsterStrongAttackMinDamage = 6;
-const monsterStrongAttackMaxDamage = 8;
+let monsterStrongAttackMinDamage = monsterAttackMaxDamage + 1;
+let monsterStrongAttackMaxDamage = monsterAttackMaxDamage + 3;
 
 // Initial heal values
 const playerHealMinAmount = 3;
@@ -58,6 +56,9 @@ function getRandomValue(min, max) {
 function setMonsterDamage() {
 	monsterAttackMinDamage = getRandomValue(2, 4);
 	monsterAttackMaxDamage = getRandomValue(5, 8);
+
+	monsterStrongAttackMinDamage = monsterAttackMaxDamage + 1;
+	monsterStrongAttackMaxDamage = monsterAttackMaxDamage + 3;
 }
 
 // Function to end the game
@@ -267,6 +268,14 @@ function monsterStrongAttack() {
 	const damage = getRandomValue(monsterStrongAttackMinDamage, monsterStrongAttackMaxDamage);
 	playerHealth -= damage;
 	logEvent('MONSTER_STRONG_ATTACK', damage);
+
+	if (playerHealth <= 0) {
+		playerHealth = 0;
+		logEvent('MONSTER_WIN', null);
+		endGame();
+	}
+
+	updateHealthBars();
 }
 
 // Function to perform a monster attack
