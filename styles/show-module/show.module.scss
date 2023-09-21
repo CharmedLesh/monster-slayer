@@ -1,6 +1,89 @@
+// swordsman animations
+@import '../../assets/animations/player/swordsman/idle/SwordsmanIdle.scss';
+@import '../../assets/animations/player/swordsman/run/SwordsmanRun.scss';
+@import '../../assets/animations/player/swordsman/common-attack/SwordsmanCommonAttack.scss';
+@import '../../assets/animations/player/swordsman/strong-attack/SwordsmanStrongAttack.scss';
+@import '../../assets/animations/player/swordsman/hurt/SwordsmanHurt.scss';
+@import '../../assets/animations/player/swordsman/death/SwordsmanDeath.scss';
+
+// skeleton swordsman animation
+@import '../../assets/animations/monster/skeleton-swordsman/idle/SkeletonSwordsmanIdle.scss';
+@import '../../assets/animations/monster/skeleton-swordsman/run/SkeletonSwordsmanRun.scss';
+@import '../../assets/animations/monster/skeleton-swordsman/common-attack/SkeletonSwordsmanCommonAttack.scss';
+@import '../../assets/animations/monster/skeleton-swordsman/hurt/SkeletonSwordsmanHurt.scss';
+@import '../../assets/animations/monster/skeleton-swordsman/death/SkeletonSwordsmanDeath.scss';
+
 .show {
+	--blur: 0px;
+	--spread: 1px;
+	--pixel-size: 3px;
+	--gutter-size: 0px;
+	--shadow-mult: calc(var(--gutter-size) + var(--pixel-size));
+	position: relative;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	border: 2px solid $accent;
+
+	&__swordsman {
+		position: absolute;
+		left: 10px;
+		height: var(--pixel-size);
+		width: var(--pixel-size);
+		animation: swordsman-idle $idleTime infinite;
+		animation-timing-function: steps(1);
+
+		&--run {
+			animation: swordsman-run $runTime infinite;
+			animation-timing-function: steps(1);
+		}
+
+		&--common-attack {
+			animation: swordsman-common-attack $attackTime forwards;
+			animation-timing-function: steps(1);
+		}
+
+		&--strong-attack {
+			animation: swordsman-strong-attack $attackTime forwards;
+			animation-timing-function: steps(1);
+		}
+
+		&--hurt {
+			animation: swordsman-hurt $hurtTime forwards;
+			animation-timing-function: steps(1);
+		}
+
+		&--death {
+			animation: swordsman-death $deathTime forwards;
+			animation-timing-function: steps(1);
+		}
+	}
+
+	&__skeleton-swordsman {
+		position: absolute;
+		right: 144px;
+		height: var(--pixel-size);
+		width: var(--pixel-size);
+		animation: skeleton-swordsman-idle $idleTime infinite;
+		animation-timing-function: steps(1);
+
+		&--run {
+			animation: skeleton-swordsman-run $runTime infinite;
+			animation-timing-function: steps(1);
+		}
+
+		&--common-attack {
+			animation: skeleton-swordsman-common-attack $attackTime forwards;
+			animation-timing-function: steps(1);
+		}
+
+		&--hurt {
+			animation: skeleton-swordsman-hurt $hurtTime forwards;
+			animation-timing-function: steps(1);
+		}
+
+		&--death {
+			animation: skeleton-swordsman-death $deathTime forwards;
+			animation-timing-function: steps(1);
+		}
+	}
 }

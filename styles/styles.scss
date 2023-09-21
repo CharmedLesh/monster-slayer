@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap');
 
 // colors
-
 $light: #ffffffde;
 $light-secondary: #f3f3f3;
 $dark: #242424;
@@ -10,6 +9,12 @@ $accent: #646cff;
 $accent-secondary: #535bf2;
 
 // fonts
+$open-sans: 'Open Sans', sans-serif;
+$nunito: 'Nunito', sans-serif;
 
-$open-sans: "Open Sans", sans-serif;
-$nunito: "Nunito", sans-serif;
+// animations time
+$idleTime: 750ms;
+$runTime: 500ms;
+$attackTime: 500ms;
+$hurtTime: 500ms;
+$deathTime: 600ms;

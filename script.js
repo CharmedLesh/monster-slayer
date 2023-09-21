@@ -1,3 +1,17 @@
+// Actions + animations + delays time in ms
+const time = 500; // remove this later
+const attackTime = 500;
+const hurtDelay = 200;
+const hurtTime = 500;
+const deathTime = 600;
+const endGameDelay = 500;
+
+// Selected hero
+const player = 'swordsman';
+
+// Current enemy
+const monster = 'skeleton-swordsman';
+
 // Initial damage values
 const playerAttackMinDamage = 3;
 const playerAttackMaxDamage = 6;
@@ -43,9 +57,57 @@ const $healButton = document.getElementById('actions__button--heal');
 const $newGame = document.getElementById('new-game');
 const $newGameButton = $newGame.children[0];
 
-// Healt bars
+// Health bars
 const $playerHealthBar = document.querySelectorAll('.health__fill')[0];
 const $monsterHealthBar = document.querySelectorAll('.health__fill')[1];
+
+// Show container
+const $show = document.getElementById('show');
+const $player = $show.children[0];
+const $monster = $show.children[1];
+
+// Functions to trigger animations
+// player
+function playerCommonAttackAnimation() {
+	$player.classList.add(`show__${player}--common-attack`);
+	setTimeout(() => {
+		$player.classList.remove(`show__${player}--common-attack`);
+	}, attackTime);
+}
+
+function playerStrongAttackAnimation() {
+	$player.classList.add(`show__${player}--strong-attack`);
+	setTimeout(() => {
+		$player.classList.remove(`show__${player}--strong-attack`);
+	}, attackTime);
+}
+
+function playerHurtAnimation() {
+	setTimeout(() => {
+		$player.classList.add(`show__${player}--hurt`);
+	}, hurtDelay);
+	setTimeout(() => {
+		$player.classList.remove(`show__${player}--hurt`);
+	}, hurtDelay + hurtTime);
+}
+
+function playerDeathAnimation() {
+	setTimeout(() => {
+		$player.classList.add(`show__${player}--death`);
+	}, hurtDelay + hurtTime);
+}
+
+function removePlayerDeathAnimation() {
+	$player.classList.remove(`show__${player}--death`);
+}
+
+// monster
+function monsterCommonAttackAnimation() {
+	$monster.classList.add(`show__${monster}--common-attack`);
+	setTimeout(() => {
+		$monster.classList.remove(`show__${monster}--common-attack`);
+	}, attackTime);
+}
 
 // Function to generate a random value between min and max
 function getRandomValue(min, max) {
@@ -63,7 +125,10 @@ function setMonsterDamage() {
 
 // Function to end the game
 function endGame() {
-	$newGame.style.display = 'flex';
+	playerDeathAnimation();
+	setTimeout(() => {
+		$newGame.style.display = 'flex';
+	}, hurtDelay + hurtTime + deathTime + endGameDelay);
 }
 
 //Function to increase monster defeated counter
@@ -107,6 +172,7 @@ function provideNewEnemy() {
 // Function to reset game
 function resetGame() {
 	playerHealth = 100;
+	removePlayerDeathAnimation();
 	monsterHealth = 100;
 	setMonsterDamage();
 	playerAttackCount = 0;
@@ -204,6 +270,8 @@ function playerCommonAttack() {
 		$strongAttackButton.disabled = false;
 	}
 
+	playerCommonAttackAnimation();
+
 	if (monsterHealth <= 0) {
 		monsterHealth = 0;
 		logEvent('PLAYER_WIN', null);
@@ -221,6 +289,8 @@ function playerStrongAttack() {
 	monsterHealth -= damage;
 	logEvent('PLAYER_STRONG_ATTACK', damage);
 	playerAttackCount = 0;
+
+	playerStrongAttackAnimation();
 
 	if (monsterHealth <= 0) {
 		monsterHealth = 0;
@@ -280,6 +350,8 @@ function monsterStrongAttack() {
 
 // Function to perform a monster attack
 function monsterAttack() {
+	monsterCommonAttackAnimation();
+	playerHurtAnimation();
 	if (monsterAttackCount < 5) {
 		monsterCommonAttack();
 		monsterAttackCount++;
@@ -302,7 +374,7 @@ function buttonClickHandler(event) {
 				if (playerHealth !== 0) {
 					enableActionButtons();
 				}
-			}, 500);
+			}, time);
 			break;
 		case $strongAttackButton:
 			if (playerAttackCount >= 3 && healWasPerformed) {
@@ -316,7 +388,7 @@ function buttonClickHandler(event) {
 					if (playerHealth !== 0) {
 						enableActionButtons();
 					}
-				}, 500);
+				}, time);
 			}
 			break;
 		case $healButton:
@@ -325,7 +397,7 @@ function buttonClickHandler(event) {
 			setTimeout(() => {
 				monsterAttack();
 				enableActionButtons();
-			}, 500);
+			}, time);
 			break;
 		case $newGameButton:
 			resetGame();
