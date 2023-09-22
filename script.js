@@ -68,33 +68,33 @@ const $monster = $show.children[1];
 
 // Functions to trigger animations
 // player
+function playerRunAnimation() {
+	$player.classList.add(`show__${player}--run`);
+	$player.classList.remove(`show__${player}--run`);
+}
+
 function playerCommonAttackAnimation() {
 	$player.classList.add(`show__${player}--common-attack`);
-	setTimeout(() => {
-		$player.classList.remove(`show__${player}--common-attack`);
-	}, attackTime);
+	$player.classList.remove(`show__${player}--common-attack`);
 }
 
 function playerStrongAttackAnimation() {
 	$player.classList.add(`show__${player}--strong-attack`);
-	setTimeout(() => {
-		$player.classList.remove(`show__${player}--strong-attack`);
-	}, attackTime);
+	$player.classList.remove(`show__${player}--strong-attack`);
+}
+
+function playerHealAnimation() {
+	$player.classList.add(`show__${player}--heal`);
+	$player.classList.remove(`show__${player}--heal`);
 }
 
 function playerHurtAnimation() {
-	setTimeout(() => {
-		$player.classList.add(`show__${player}--hurt`);
-	}, hurtDelay);
-	setTimeout(() => {
-		$player.classList.remove(`show__${player}--hurt`);
-	}, hurtDelay + hurtTime);
+	$player.classList.add(`show__${player}--hurt`);
+	$player.classList.remove(`show__${player}--hurt`);
 }
 
 function playerDeathAnimation() {
-	setTimeout(() => {
-		$player.classList.add(`show__${player}--death`);
-	}, hurtDelay + hurtTime);
+	$player.classList.add(`show__${player}--death`);
 }
 
 function removePlayerDeathAnimation() {
@@ -102,11 +102,37 @@ function removePlayerDeathAnimation() {
 }
 
 // monster
+function monsterRunAnimation() {
+	$monster.classList.add(`show__${monster}--run`);
+	$monster.classList.remove(`show__${monster}--run`);
+}
+
 function monsterCommonAttackAnimation() {
 	$monster.classList.add(`show__${monster}--common-attack`);
-	setTimeout(() => {
-		$monster.classList.remove(`show__${monster}--common-attack`);
-	}, attackTime);
+	$monster.classList.remove(`show__${monster}--common-attack`);
+}
+
+function monsterStrongAttackAnimation() {
+	$monster.classList.add(`show__${monster}--strong-attack`);
+	$monster.classList.remove(`show__${monster}--strong-attack`);
+}
+
+function monsterHealAnimation() {
+	$monster.classList.add(`show__${monster}--heal`);
+	$monster.classList.remove(`show__${monster}--heal`);
+}
+
+function monsterHurtAnimation() {
+	$monster.classList.add(`show__${monster}--hurt`);
+	$monster.classList.remove(`show__${monster}--hurt`);
+}
+
+function monsterDeathAnimation() {
+	$monster.classList.add(`show__${monster}--death`);
+}
+
+function removeMonsterDeathAnimation() {
+	$monster.classList.remove(`show__${monster}--death`);
 }
 
 // Function to generate a random value between min and max
@@ -128,7 +154,7 @@ function endGame() {
 	playerDeathAnimation();
 	setTimeout(() => {
 		$newGame.style.display = 'flex';
-	}, hurtDelay + hurtTime + deathTime + endGameDelay);
+	}, endGameDelay);
 }
 
 //Function to increase monster defeated counter
@@ -260,7 +286,7 @@ function logEvent(event, value) {
 }
 
 // Function to perform a common player attack
-function playerCommonAttack() {
+async function playerCommonAttack() {
 	const damage = getRandomValue(playerAttackMinDamage, playerAttackMaxDamage);
 	monsterHealth -= damage;
 	logEvent('PLAYER_ATTACK', damage);
@@ -271,6 +297,7 @@ function playerCommonAttack() {
 	}
 
 	playerCommonAttackAnimation();
+	monsterHurtAnimation();
 
 	if (monsterHealth <= 0) {
 		monsterHealth = 0;
@@ -284,13 +311,14 @@ function playerCommonAttack() {
 }
 
 // Function to perform a strong player attack
-function playerStrongAttack() {
+async function playerStrongAttack() {
 	const damage = getRandomValue(playerStrongAttackMinDamage, playerStrongAttackMaxDamage);
 	monsterHealth -= damage;
 	logEvent('PLAYER_STRONG_ATTACK', damage);
 	playerAttackCount = 0;
 
 	playerStrongAttackAnimation();
+	monsterHurtAnimation();
 
 	if (monsterHealth <= 0) {
 		monsterHealth = 0;
@@ -349,7 +377,7 @@ function monsterStrongAttack() {
 }
 
 // Function to perform a monster attack
-function monsterAttack() {
+async function monsterAttack() {
 	monsterCommonAttackAnimation();
 	playerHurtAnimation();
 	if (monsterAttackCount < 5) {
@@ -362,7 +390,7 @@ function monsterAttack() {
 }
 
 // Function to handle button click events
-function buttonClickHandler(event) {
+async function buttonClickHandler(event) {
 	switch (event.target) {
 		case $attackButton:
 			playerCommonAttack();
@@ -388,7 +416,7 @@ function buttonClickHandler(event) {
 					if (playerHealth !== 0) {
 						enableActionButtons();
 					}
-				}, time);
+				});
 			}
 			break;
 		case $healButton:
