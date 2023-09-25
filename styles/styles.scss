@@ -13,8 +13,10 @@ $open-sans: 'Open Sans', sans-serif;
 $nunito: 'Nunito', sans-serif;
 
 // animations time
-$idleTime: 750ms;
-$runTime: 500ms;
-$attackTime: 500ms;
-$hurtTime: 500ms;
-$deathTime: 600ms;
+$idleAnimationTime: 750ms;
+$runAnimationTime: 500ms;
+$attackAnimationTime: 500ms;
+$hurtAnimationTime: 300ms;
+$deathAnimationTime: 600ms;
+$appearAnimationTime: 2000ms;
+$backgroundMoveAnimationTime: 2000ms;

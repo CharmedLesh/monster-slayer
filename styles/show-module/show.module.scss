@@ -8,7 +8,6 @@
 
 // skeleton swordsman animation
 @import '../../assets/animations/monster/skeleton-swordsman/idle/SkeletonSwordsmanIdle.scss';
-@import '../../assets/animations/monster/skeleton-swordsman/run/SkeletonSwordsmanRun.scss';
 @import '../../assets/animations/monster/skeleton-swordsman/common-attack/SkeletonSwordsmanCommonAttack.scss';
 @import '../../assets/animations/monster/skeleton-swordsman/hurt/SkeletonSwordsmanHurt.scss';
 @import '../../assets/animations/monster/skeleton-swordsman/death/SkeletonSwordsmanDeath.scss';
@@ -16,7 +15,7 @@
 .show {
 	--blur: 0px;
 	--spread: 1px;
-	--pixel-size: 3px;
+	--pixel-size: 2px;
 	--gutter-size: 0px;
 	--shadow-mult: calc(var(--gutter-size) + var(--pixel-size));
 	position: relative;
@@ -45,7 +44,7 @@
 		}
 
 		&--move {
-			animation: background-move 2s forwards linear;
+			animation: background-move $backgroundMoveAnimationTime forwards linear;
 		}
 	}
 
@@ -55,62 +54,65 @@
 		left: 10px;
 		height: var(--pixel-size);
 		width: var(--pixel-size);
-		animation: swordsman-idle $idleTime infinite;
-		animation-timing-function: steps(1);
+		animation: swordsman-idle $idleAnimationTime steps(1) infinite;
 
 		&--run {
-			animation: swordsman-run $runTime infinite;
-			animation-timing-function: steps(1);
+			animation: swordsman-run $runAnimationTime steps(1) infinite;
 		}
 
 		&--common-attack {
-			animation: swordsman-common-attack $attackTime forwards;
-			animation-timing-function: steps(1);
+			animation: swordsman-common-attack $attackAnimationTime steps(1) forwards;
 		}
 
 		&--strong-attack {
-			animation: swordsman-strong-attack $attackTime forwards;
-			animation-timing-function: steps(1);
+			animation: swordsman-strong-attack $attackAnimationTime steps(1) forwards;
 		}
 
 		&--hurt {
-			animation: swordsman-hurt $hurtTime forwards;
-			animation-timing-function: steps(1);
+			animation: swordsman-hurt $hurtAnimationTime steps(1) forwards;
 		}
 
 		&--death {
-			animation: swordsman-death $deathTime forwards;
-			animation-timing-function: steps(1);
+			animation: swordsman-death $deathAnimationTime steps(1) forwards;
 		}
 	}
 
 	&__skeleton-swordsman {
 		position: absolute;
 		z-index: 2;
-		right: 144px;
+		right: 96px;
 		height: var(--pixel-size);
 		width: var(--pixel-size);
-		animation: skeleton-swordsman-idle $idleTime infinite;
-		animation-timing-function: steps(1);
-
-		&--run {
-			animation: skeleton-swordsman-run $runTime infinite;
-			animation-timing-function: steps(1);
-		}
+		animation: skeleton-swordsman-idle $idleAnimationTime steps(1) infinite;
 
 		&--common-attack {
-			animation: skeleton-swordsman-common-attack $attackTime forwards;
-			animation-timing-function: steps(1);
+			animation: skeleton-swordsman-common-attack $attackAnimationTime steps(1) forwards;
 		}
 
 		&--hurt {
-			animation: skeleton-swordsman-hurt $hurtTime forwards;
-			animation-timing-function: steps(1);
+			animation: skeleton-swordsman-hurt $hurtAnimationTime steps(1) forwards;
 		}
 
 		&--death {
-			animation: skeleton-swordsman-death $deathTime forwards;
-			animation-timing-function: steps(1);
+			animation: skeleton-swordsman-death $deathAnimationTime steps(1) forwards;
+		}
+
+		&--appear {
+			animation: skeleton-swordsman-idle $idleAnimationTime steps(1) infinite,
+				monster-appear $appearAnimationTime infinite linear;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		--pixel-size: 3px;
+
+		&__skeleton-swordsman {
+			right: 144px;
+
+			&--appear {
+				animation: skeleton-swordsman-idle $idleAnimationTime steps(1) infinite,
+					monster-appear-desktop $appearAnimationTime infinite linear;
+			}
 		}
 	}
 }
@@ -121,5 +123,23 @@
 	}
 	to {
 		transform: translateX(-100%);
+	}
+}
+
+@keyframes monster-appear {
+	from {
+		right: calc(-100% + 96px);
+	}
+	to {
+		right: 96px;
+	}
+}
+
+@keyframes monster-appear-desktop {
+	from {
+		right: calc(-100% + 144px);
+	}
+	to {
+		right: 144px;
 	}
 }

@@ -81,6 +81,8 @@ button {
 .game {
 	width: 100%;
 	height: 100%;
+	max-width: 800px;
+	padding: 20px 60px;
 	display: grid;
 	grid-template:
 		'a a a' 200px
