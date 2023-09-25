@@ -65,6 +65,7 @@ const $monsterHealthBar = document.querySelectorAll('.health__fill')[1];
 const $show = document.getElementById('show');
 const $player = $show.children[0];
 const $monster = $show.children[1];
+const $background = $show.children[2];
 
 // Functions to trigger animations
 // player
@@ -133,6 +134,12 @@ function monsterDeathAnimation() {
 
 function removeMonsterDeathAnimation() {
 	$monster.classList.remove(`show__${monster}--death`);
+}
+
+// background
+function backgroundMoveAnimation() {
+	$background.classList.add(`show__background--move`);
+	$monster.classList.remove(`show__background--move`);
 }
 
 // Function to generate a random value between min and max
