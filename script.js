@@ -2,7 +2,7 @@
 const runAnimationTime = 2000;
 const attackAnimationTime = 500;
 const hurtAnimationTime = 300;
-const healAnimationTime = 500;
+const healAnimationTime = 300;
 const deathAnimationTime = 600;
 const appearAnimationTime = 2000;
 const backgroundMoveAnimationTime = 2000;
@@ -347,7 +347,6 @@ async function playerHeal() {
 	playerHealth += healValue;
 	healWasPerformed = true;
 
-	// (animation not implemented)
 	await playerHealAnimation();
 
 	if (playerHealth > 100) {

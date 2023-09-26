@@ -4,6 +4,7 @@
 @import '../../assets/animations/player/swordsman/common-attack/SwordsmanCommonAttack.scss';
 @import '../../assets/animations/player/swordsman/strong-attack/SwordsmanStrongAttack.scss';
 @import '../../assets/animations/player/swordsman/hurt/SwordsmanHurt.scss';
+@import '../../assets/animations/player/swordsman/heal/SwordsmanHeal.scss';
 @import '../../assets/animations/player/swordsman/death/SwordsmanDeath.scss';
 
 // skeleton swordsman animation
@@ -74,6 +75,10 @@
 
 		&--death {
 			animation: swordsman-death $deathAnimationTime steps(1) forwards;
+		}
+
+		&--heal {
+			animation: swordsman-heal $healAnimationTime steps(1) forwards;
 		}
 	}
 
