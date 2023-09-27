@@ -33,6 +33,7 @@ const playerHealMaxAmount = 10;
 // Initial health values
 let playerHealth = 100;
 let monsterHealth = 100;
+let playerHealthBeforeHealAction = undefined;
 
 // Attack counters
 let playerAttackCount = 0;
@@ -44,6 +45,9 @@ const $monsterDefeatedCounter = document.querySelector('.game__defeated-monsters
 
 // Heal action boolean
 let healWasPerformed = false;
+
+// logs amount limit
+const logsAmountLimit = 40;
 
 // Log container
 const $logContainerWrapper = document.querySelector('#logs').children[0];
@@ -219,78 +223,119 @@ function resetGame() {
 
 // Function to log an event
 function logEvent(event, value) {
-	let logEntry = '';
+	const $logItem = document.createElement('div');
+	$logItem.classList.add('logs__item');
 
 	const logsObj = {
-		monsterHealthDamage: `Damage: ${value}\n Monster health: ${monsterHealth + value} - ${value ? value : 0} --> ${
-			monsterHealth >= 0 ? monsterHealth : 0
-		}`,
-		playerHealthDamage: `Damage: ${value}\n Player health: ${playerHealth + value} - ${value ? value : 0} --> ${
-			playerHealth >= 0 ? playerHealth : 0
-		}`,
-		playerHeal: `Restored: ${value}\n Player health: ${playerHealth - value} + ${
-			value ? value : 0
-		} --> ${playerHealth}`,
-		playerHealth: `Player health: ${playerHealth}`,
-		monsterHealth: `Monster health: ${monsterHealth}`
+		event: {
+			playerAttack: '<div>Player attacks</div>',
+			monsterAttack: '<div>Monster attacks</div>',
+			playerHeal: '<div>Player heals</div>',
+			playerWin: '<div>MONSTER DEFEATED</div>',
+			monsterWin: '<div>PLAYER DEFEATED</div>',
+			monsterApproached: '<div>Another monster approached</div>'
+		},
+		actionType: {
+			attack: `<div>Action type: <span class='logs__colored-text--accent'>Attack</span></div>`,
+			strongAttack: `<div>Action type: <span class='logs__colored-text--accent'>Strong attack</span></div>`,
+			heal: `<div>Action type: <span class='logs__colored-text--green'>Heal</span></div>`
+		},
+		impact: {
+			damage: `<div>Damage: <span class='logs__colored-text--accent'>${value}</span></div>`,
+			restored: `<div>Restored: <span class='logs__colored-text--green'>${value}</span></div>`
+		},
+		healthChange: {
+			monsterHealthDamage: `<div>Monster health: <span class='logs__colored-text--red'>${
+				monsterHealth + value
+			}</span> - <span class='logs__colored-text--accent'>${
+				value ? value : 0
+			}</span> --> <span class='logs__colored-text--red'>${monsterHealth >= 0 ? monsterHealth : 0}</span></div>`,
+			playerHealthDamage: `<div>Player health: <span class='logs__colored-text--red'>${
+				playerHealth + value
+			}</span> - <span class='logs__colored-text--accent'>${
+				value ? value : 0
+			}</span> --> <span class='logs__colored-text--red'>${playerHealth >= 0 ? playerHealth : 0}</span></div>`,
+			playerHealthRestored: `<div>Player health: <span class='logs__colored-text--red'>${playerHealthBeforeHealAction}</span> + <span class='logs__colored-text--green'>${
+				value ? value : 0
+			}</span> --> <span class='logs__colored-text--red'>${playerHealth}</span></div>`
+		},
+		stats: {
+			playerHealth: `<div>Player health: <span class='logs__colored-text--red'>${playerHealth}</span></div>`,
+			monsterHealth: `<div>Monster health: <span class='logs__colored-text--red'>${monsterHealth}</span></div>`,
+			monsterDamage: `<div>Monster damage: <span class='logs__colored-text--accent'>${monsterAttackMinDamage}</span> - <span class='logs__colored-text--accent'>${monsterAttackMaxDamage}</span></div>`
+		}
 	};
 
 	switch (event) {
 		case 'PLAYER_ATTACK':
-			logEntry += 'Player attacks\n';
-			logEntry += `Action type: Attack\n`;
-			logEntry += `${logsObj.monsterHealthDamage}\n`;
-			logEntry += `${logsObj.playerHealth}\n`;
+			$logItem.innerHTML += logsObj.event.playerAttack;
+			$logItem.innerHTML += logsObj.actionType.attack;
+			$logItem.innerHTML += logsObj.impact.damage;
+			$logItem.innerHTML += logsObj.healthChange.monsterHealthDamage;
+			$logItem.innerHTML += logsObj.stats.playerHealth;
 			break;
 		case 'PLAYER_STRONG_ATTACK':
-			logEntry += 'Player attacks\n';
-			logEntry += `Action type: Strong attack\n`;
-			logEntry += `${logsObj.monsterHealthDamage}\n`;
-			logEntry += `${logsObj.playerHealth}\n`;
+			$logItem.innerHTML += logsObj.event.playerAttack;
+			$logItem.innerHTML += logsObj.actionType.strongAttack;
+			$logItem.innerHTML += logsObj.impact.damage;
+			$logItem.innerHTML += logsObj.healthChange.monsterHealthDamage;
+			$logItem.innerHTML += logsObj.stats.playerHealth;
 			break;
 		case 'MONSTER_ATTACK':
-			logEntry += 'Monster attacks\n';
-			logEntry += 'Action type: Attack\n';
-			logEntry += `${logsObj.playerHealthDamage}\n`;
-			logEntry += `${logsObj.monsterHealth}\n`;
+			$logItem.innerHTML += logsObj.event.monsterAttack;
+			$logItem.innerHTML += logsObj.actionType.attack;
+			$logItem.innerHTML += logsObj.impact.damage;
+			$logItem.innerHTML += logsObj.healthChange.playerHealthDamage;
+			$logItem.innerHTML += logsObj.stats.monsterHealth;
 			break;
 		case 'MONSTER_STRONG_ATTACK':
-			logEntry += 'Monster attacks\n';
-			logEntry += 'Action type: Strong attack\n';
-			logEntry += `${logsObj.playerHealthDamage}\n`;
-			logEntry += `${logsObj.monsterHealth}\n`;
+			$logItem.innerHTML += logsObj.event.monsterAttack;
+			$logItem.innerHTML += logsObj.actionType.strongAttack;
+			$logItem.innerHTML += logsObj.impact.damage;
+			$logItem.innerHTML += logsObj.healthChange.playerHealthDamage;
+			$logItem.innerHTML += logsObj.stats.monsterHealth;
 			break;
 		case 'PLAYER_HEAL':
-			logEntry += `Player heals\n`;
-			logEntry += `Action type: Heal\n`;
-			logEntry += `${logsObj.playerHeal}\n`;
-			logEntry += `${logsObj.monsterHealth}\n`;
+			$logItem.innerHTML += logsObj.event.playerHeal;
+			$logItem.innerHTML += logsObj.actionType.heal;
+			$logItem.innerHTML += logsObj.impact.restored;
+			$logItem.innerHTML += logsObj.healthChange.playerHealthRestored;
+			$logItem.innerHTML += logsObj.stats.monsterHealth;
 			break;
 		case 'PLAYER_WIN':
-			logEntry += `MONSTER DEFEATED\n`;
+			$logItem.innerHTML += logsObj.event.playerWin;
 			break;
 		case 'MONSTER_WIN':
-			logEntry += `PLAYER DEFEATED\n`;
+			$logItem.innerHTML += logsObj.event.monsterWin;
 			break;
 		case 'MONSTER_APPROACHED':
-			logEntry += `Another monster approached\n`;
-			logEntry += `HP: ${monsterHealth}\n`;
-			logEntry += `Monster damage: ${monsterAttackMinDamage} - ${monsterAttackMaxDamage}\n`;
+			$logItem.innerHTML += logsObj.event.monsterApproached;
+			$logItem.innerHTML += logsObj.stats.monsterHealth;
+			$logItem.innerHTML += logsObj.stats.monsterDamage;
 			break;
 		default:
 			break;
 	}
 
-	if ($logContainer.innerHTML) {
-		$logContainer.innerText += '\n' + logEntry;
+	if ($logContainer.children.length) {
+		if ($logContainer.children.length >= logsAmountLimit) {
+			for (let i = 0; i < 2; i++) {
+				$logContainer.removeChild($logContainer.firstElementChild);
+			}
+		}
+		const $brElement = document.createElement('br');
+		$logContainer.appendChild($brElement);
+		$logContainer.appendChild($logItem);
 	} else {
-		$logContainer.innerText += logEntry;
+		$logContainer.appendChild($logItem);
 	}
+
 	$logContainerWrapper.scrollTop = $logContainer.scrollHeight;
 }
 
 async function monsterDeathEvent() {
 	monsterHealth = 0;
+	updateHealthBars();
 	logEvent('PLAYER_WIN', null);
 	increaseMonsterDefeated();
 	await monsterDeathAnimation();
@@ -344,16 +389,15 @@ async function playerStrongAttack() {
 // Function to perform a player heal
 async function playerHeal() {
 	const healValue = getRandomValue(playerHealMinAmount, playerHealMaxAmount);
+	playerHealthBeforeHealAction = playerHealth;
 	playerHealth += healValue;
 	healWasPerformed = true;
-
-	await playerHealAnimation();
-
 	if (playerHealth > 100) {
 		playerHealth = 100;
 	}
-
 	logEvent('PLAYER_HEAL', healValue);
+
+	await playerHealAnimation();
 
 	updateHealthBars();
 }

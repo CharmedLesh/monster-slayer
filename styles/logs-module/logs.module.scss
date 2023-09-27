@@ -9,12 +9,26 @@
 		overflow: auto;
 	}
 
-	&__text {
+	&__items-container {
 		padding: 10px;
 		font-size: 12px;
 
 		@media (min-width: 1024px) {
 			font-size: 16px;
+		}
+	}
+
+	&__colored-text {
+		&--accent {
+			color: $accent;
+		}
+
+		&--red {
+			color: $toxic-red;
+		}
+
+		&--green {
+			color: $green;
 		}
 	}
 

@@ -345,14 +345,23 @@
 .logs__content {
   overflow: auto;
 }
-.logs__text {
+.logs__items-container {
   padding: 10px;
   font-size: 12px;
 }
 @media (min-width: 1024px) {
-  .logs__text {
+  .logs__items-container {
     font-size: 16px;
   }
+}
+.logs__colored-text--accent {
+  color: #646cff;
+}
+.logs__colored-text--red {
+  color: #ff0000;
+}
+.logs__colored-text--green {
+  color: #009800;
 }
 @media (min-width: 1024px) {
   .logs {
